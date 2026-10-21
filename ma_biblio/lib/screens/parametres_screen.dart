@@ -1,13 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:ma_biblio/models/livre.dart';
 
 class ParametresScreen extends StatelessWidget {
   const ParametresScreen({super.key});
 
+  Widget livreTile(Livre livre) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: livre.couleur,
+        child: Text(
+          livre.titre.isNotEmpty ? livre.titre[0].toUpperCase() : '?',
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
+      title: Text(livre.titre),
+      subtitle: Text('${livre.auteur} – ${livre.annee}'),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(livre.note.toString()),
+          const SizedBox(width: 4),
+          const Icon(Icons.star, color: Colors.yellow),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final List<Livre> livres = [
+      Livre(
+        id: 1,
+        titre: 'Le Petit Prince',
+        auteur: 'Antoine de Saint-Exupéry',
+        genre: 'Roman',
+        annee: 1943,
+        note: 4.8,
+        couleur: Colors.orange,
+      ),
+      Livre(
+        id: 2,
+        titre: 'Une brève histoire du temps',
+        auteur: 'Stephen Hawking',
+        genre: 'Science',
+        annee: 1988,
+        note: 4.7,
+        couleur: Colors.blue,
+      ),
+      Livre(
+        id: 3,
+        titre: 'Les Misérables',
+        auteur: 'Victor Hugo',
+        genre: 'Roman',
+        annee: 1862,
+        note: 4.9,
+        couleur: Colors.green,
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(title: const Text('Paramètres')),
-      body: Column(
+      body: ListView(
         children: [
           ListTile(
             leading: const Icon(Icons.person),
@@ -20,7 +73,6 @@ class ParametresScreen extends StatelessWidget {
               );
             },
           ),
-
           ListTile(
             leading: const Icon(Icons.notifications),
             title: const Text('Notifications'),
@@ -31,29 +83,35 @@ class ParametresScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-
           const ListTile(
             leading: Icon(Icons.language),
             title: Text('Langue'),
             subtitle: Text('Français'),
           ),
-
-          // Q1.4 : tester les propriétés séparément.
-          // dense: true réduit la hauteur de la ligne.
-          // isThreeLine: true réserve plus de hauteur
-          // pour afficher un sous-titre sur deux lignes.
-          // enabled: false désactive la ligne et atténue son apparence.
           ListTile(
             leading: const Icon(Icons.info),
             title: const Text('À propos'),
             subtitle: const Text('MaBiblio\nInformations sur l’application'),
-
-            // Q1.4 : décommenter une propriété à la fois
-            // pour observer son effet.
-            // dense: true,
             isThreeLine: true,
-            // enabled: false,
           ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Accueil'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text(
+              'Mes livres',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          ...livres.take(3).map(livreTile),
         ],
       ),
     );
