@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ma_biblio/screens/parametres_screen.dart';
+import 'package:ma_biblio/screens/catalogue_screen.dart';
 
 void main() {
   runApp(const MaBiblioApp());
@@ -35,6 +36,18 @@ class HomePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ParametresScreen(),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.menu_book),
+            tooltip: 'Catalogue',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CatalogueScreen(),
                 ),
               );
             },
